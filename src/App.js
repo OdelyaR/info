@@ -3,6 +3,8 @@ import './App.css';
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -12,7 +14,38 @@ function App() {
     }
     fetchData();
   }, []);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const newUser = { name, email };
+    setUsers([...users, newUser]);
+    setName('');
+    setEmail('');
+  };
+
   return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={event => setName(event.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={event => setEmail(event.target.value)}
+          />
+        </label>
+        <br />
+        <button type="submit">Add User</button>
+      </form>
     <table>
     <thead>
       <tr>
@@ -29,8 +62,9 @@ function App() {
       ))}
     </tbody>
   </table>
-);
-}
+  </>
+  );
+};
 
 
 export default App;
